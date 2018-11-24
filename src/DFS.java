@@ -1,4 +1,3 @@
-import org.apache.poi.ss.formula.functions.T;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -24,16 +23,17 @@ public class DFS {
 							   };
 	static int sum = 6;
 	static boolean[] visited = new boolean[sum];
-	//Éî¶ÈÓÅÏÈµİ¹é£¬Á¬Í¨Í¼
+	//æ·±åº¦ä¼˜å…ˆé€’å½’ï¼Œè¿é€šå›¾
 	static void DFS(int[][] g,int v){
 		System.out.print(v);
 		visited[v]=true;
 		for(int i=0;i<sum;i++){
-			if(!visited[i]&&g[v][i]==1)
+			if(!visited[i]&&g[v][i]==1){
 				DFS(g,i);
+			}
 		}
 	}
-	//Éî¶ÈÓÅÏÈ·Çµİ¹é£¬Á¬Í¨Í¼
+	//æ·±åº¦ä¼˜å…ˆéé€’å½’ï¼Œè¿é€šå›¾
 	static void DFS_u(int[][] g){
 		Stack<Integer> st = new Stack<Integer>();
 		st.push(0);
@@ -41,7 +41,7 @@ public class DFS {
 		while(!st.empty()){
 			int x = st.pop(),i;
 			System.out.print(x);
-			//±êÖ¾ÊÇ·ñÕÒµ½ÏàÁÚÇÒÎ´±»·ÃÎÊµÄµã
+			//æ ‡å¿—æ˜¯å¦æ‰¾åˆ°ç›¸é‚»ä¸”æœªè¢«è®¿é—®çš„ç‚¹
 			for(i=1;i<sum;i++){
 				if(!visited[i]&&g[x][i]==1){
 					st.push(i);
@@ -51,7 +51,7 @@ public class DFS {
 		}
 	}
 
-	//¹ã¶ÈÓÅÏÈ·Çµİ¹é£¬Á¬Í¨Í¼
+	//å¹¿åº¦ä¼˜å…ˆéé€’å½’ï¼Œè¿é€šå›¾
 	static void BFS(int[][] g){
 		Queue<Integer> qu = new LinkedList<Integer>();
 		visited[0]=true;
@@ -59,7 +59,7 @@ public class DFS {
 		while(!qu.isEmpty()){
 			int x=qu.remove(),i;
 			System.out.print(x);
-			//±êÖ¾ÊÇ·ñÕÒµ½ÏàÁÚÇÒÎ´±»·ÃÎÊµÄµã
+			//æ ‡å¿—æ˜¯å¦æ‰¾åˆ°ç›¸é‚»ä¸”æœªè¢«è®¿é—®çš„ç‚¹
 			for(i=1;i<sum;i++){
 				if(!visited[i]&&g[x][i]==1){
 					qu.add(i);
@@ -71,8 +71,8 @@ public class DFS {
 	}
 	public static void main(String[] args){
 //		BFS(arcs2);
-//		DFS(arcs1,0);
-//		DFS_u(arcs2);
+		DFS(arcs2,0);
 		System.out.println();
+		DFS_u(arcs2);
 	}
 }

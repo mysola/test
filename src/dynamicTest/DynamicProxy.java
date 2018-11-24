@@ -3,6 +3,7 @@ package dynamicTest;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.ArrayList;
 
 public class DynamicProxy {
     interface A {
@@ -12,7 +13,6 @@ public class DynamicProxy {
     }
 
     static class B implements A {
-
         public int i = 1;
         @Override
         public void sayhello() {
@@ -20,10 +20,6 @@ public class DynamicProxy {
             System.out.println("hello world");
         }
 
-        {
-            System.out.println(44);
-        }
-        @Override
         public void sayhello1() {
             System.out.println("hello world1");
         }
@@ -33,21 +29,7 @@ public class DynamicProxy {
         }
     }
 
-    static class C extends B{
-        public int i = 2;
-
-        @Override
-        public void sayhello() {
-            System.out.println(i);
-        }
-
-        public C() {
-            System.out.println(2);
-        }
-    }
-
     static class DynamicHandle implements InvocationHandler {
-
         private Object obj;
 
         public DynamicHandle(Object obj) {
@@ -63,9 +45,9 @@ public class DynamicProxy {
     }
 
     public static void main(String[] args) throws Exception {
-        new C();
-//        A a = new B();
-//        A objProxy = (A)Proxy.newProxyInstance(a.getClass().getClassLoader(),B.class.getInterfaces(),new DynamicHandle(a));
-//        objProxy.sayhello1();
+      System.getProperties().put("sun.misc.ProxyGenerator.saveGeneratedFiles","true");
+      A a = new B();
+        A objProxy = (A)Proxy.newProxyInstance(a.getClass().getClassLoader(),B.class.getInterfaces(),new DynamicHandle(a));
+        objProxy.sayhello1();
     }
 }

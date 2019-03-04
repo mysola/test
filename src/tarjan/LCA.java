@@ -16,7 +16,7 @@ public class LCA {
         String temp = null;
         while((temp = br.readLine())!=null){
             String[] strings = temp.split(" ");
-            sum = Integer.valueOf(strings[0]);
+            sum = Integer.parseInt(strings[0]);
             edge = Integer.valueOf(strings[1]);
             arcs = new short[sum][sum];
             find = new int[sum];

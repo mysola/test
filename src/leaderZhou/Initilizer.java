@@ -62,14 +62,14 @@ public class Initilizer {
     }
 
     public void init() throws Exception {
-        //ÎªÃ¿¸öµ¼Ô±ÌôÑ¡SUMOFLEADERÃûÑ§Éú
+        //ä¸ºæ¯ä¸ªå¯¼å‘˜æŒ‘é€‰SUMOFLEADERåå­¦ç”Ÿ
         leaders = StuInfReader.readExcel2007AsStudent(basePath+File.separator+excelPath,readStuNumOfCollege());
         int sum = leaders.size()*SUMOFLEADER;
         unOrderStudents = new ArrayList<>(sum);
         byte[] pic = null;
         for(List<Student> stus: leaders.values()){
             unOrderStudents.addAll(stus);
-            //ÎªÃ¿¸öÑ§Éú¶ÁÈ¡ÕÕÆ¬
+            //ä¸ºæ¯ä¸ªå­¦ç”Ÿè¯»å–ç…§ç‰‡
             for(Student student : stus){
                 InputStream is = new BufferedInputStream(new FileInputStream(
                         basePath+File.separator+collegeName+File.separator+student.getStuNum()+".jpg"));
@@ -81,7 +81,7 @@ public class Initilizer {
         Random random = new Random();
         int next = 0;
         Student temp = null;
-        //´òÂÒË³Ğò
+        //æ‰“ä¹±é¡ºåº
         for(int i=0;i<sum;i++){
             next = random.nextInt(sum);
             temp = unOrderStudents.get(i);
@@ -135,21 +135,21 @@ public class Initilizer {
 
     public void wirteAsWord() throws Exception{
 
-        // ´´½¨wordÎÄµµ,²¢ÉèÖÃÖ½ÕÅµÄ´óĞ¡
+        // åˆ›å»ºwordæ–‡æ¡£,å¹¶è®¾ç½®çº¸å¼ çš„å¤§å°
         Document doc = new Document(PageSize.A4);
-        StringBuilder fileName = new StringBuilder(resultPath+File.separator+"ÊÔÌâ(");
+        StringBuilder fileName = new StringBuilder(resultPath+File.separator+"è¯•é¢˜(");
         for(String s : leaders.keySet()){
-            fileName.append(s+"¡¢");
+            fileName.append(s+"ã€");
         }
         fileName.deleteCharAt(fileName.length()-1);
         fileName.append(").doc");
 
         /**
-         * ½¨Á¢Ò»¸öÊéĞ´Æ÷Óëdocument¶ÔÏó¹ØÁª,Í¨¹ıÊéĞ´Æ÷¿ÉÒÔ½«ÎÄµµĞ´Èëµ½Êä³öÁ÷ÖĞ
+         * å»ºç«‹ä¸€ä¸ªä¹¦å†™å™¨ä¸documentå¯¹è±¡å…³è”,é€šè¿‡ä¹¦å†™å™¨å¯ä»¥å°†æ–‡æ¡£å†™å…¥åˆ°è¾“å‡ºæµä¸­
          */
         RtfWriter2.getInstance(doc, new BufferedOutputStream(new FileOutputStream(fileName.toString())));
         doc.open();
-        // ÔÚÁĞÖĞÌí¼ÓÍ¼Æ¬
+        // åœ¨åˆ—ä¸­æ·»åŠ å›¾ç‰‡
         for(Student student : unOrderStudents){
             Image png = Image.getInstance(student.getPic());
             doc.add(png);
@@ -158,32 +158,32 @@ public class Initilizer {
     }
 
     public void wirteAsExcel() throws Exception{
-        //ÎªÃ¿Î»µ¼Ô±Éú³ÉÑÕÉ«
+        //ä¸ºæ¯ä½å¯¼å‘˜ç”Ÿæˆé¢œè‰²
         Map<String,Short> colorOfLeader = setColorForLeader();
 
-        // µÚÒ»²½£º´´½¨workbook¹¤×÷²¾£¨excelÎÄµµ£©
-        // ´´½¨ÎÄ¼şÊä³öÁ÷
-        FileOutputStream out = new FileOutputStream(resultPath+File.separator+"´ğ°¸.xlsx");
+        // ç¬¬ä¸€æ­¥ï¼šåˆ›å»ºworkbookå·¥ä½œç°¿ï¼ˆexcelæ–‡æ¡£ï¼‰
+        // åˆ›å»ºæ–‡ä»¶è¾“å‡ºæµ
+        FileOutputStream out = new FileOutputStream(resultPath+File.separator+"ç­”æ¡ˆ.xlsx");
 
-        // µÚÒ»²½£º´´½¨Ò»¸ö¹¤×÷²¾ -1£º¹Ø±Õ×Ô¶¯Ë¢ĞÂ
-        // SXSSFWorkbook wb = new SXSSFWorkbook(XXXX);£¨×Ô¶¯Ë¢ĞÂ£© ±£³ÖÄÚ´æÖĞÓĞXXXXÌõ¼ÇÂ¼£¬³¬¹ı²¿·ÖĞ´Èë´ÅÅÌ
+        // ç¬¬ä¸€æ­¥ï¼šåˆ›å»ºä¸€ä¸ªå·¥ä½œç°¿ -1ï¼šå…³é—­è‡ªåŠ¨åˆ·æ–°
+        // SXSSFWorkbook wb = new SXSSFWorkbook(XXXX);ï¼ˆè‡ªåŠ¨åˆ·æ–°ï¼‰ ä¿æŒå†…å­˜ä¸­æœ‰XXXXæ¡è®°å½•ï¼Œè¶…è¿‡éƒ¨åˆ†å†™å…¥ç£ç›˜
         SXSSFWorkbook wb = new SXSSFWorkbook(-1); // turn off auto-flushing and accumulate all rows
 
-        // µÚ¶ş²½£º´´½¨Ò»¸ö¹¤×÷±í ´´½¨Ò»¸ösheet
+        // ç¬¬äºŒæ­¥ï¼šåˆ›å»ºä¸€ä¸ªå·¥ä½œè¡¨ åˆ›å»ºä¸€ä¸ªsheet
         Sheet sh = wb.createSheet();
         int rowSum = leaders.keySet().size()*SUMOFLEADER%10==0?leaders.keySet().size()*SUMOFLEADER/10:leaders.keySet().size()*SUMOFLEADER/10+1;
         String leaderName = null;
         for (int rownum = 0; rownum < rowSum; rownum++) {
-            //µÚÈı²½£ºÔÚsheetÖĞ´´½¨ĞĞ  ´´½¨Ò»¸öĞĞ
+            //ç¬¬ä¸‰æ­¥ï¼šåœ¨sheetä¸­åˆ›å»ºè¡Œ  åˆ›å»ºä¸€ä¸ªè¡Œ
             Row row0 = sh.createRow(rownum*4);
             for (int cellnum = 0; cellnum < 10; cellnum++) {
                 if(rownum*10+cellnum>=leaders.keySet().size()*SUMOFLEADER)
                     break;
                 CellStyle cellStyle = wb.createCellStyle();
                 cellStyle.setAlignment(HorizontalAlignment.CENTER_SELECTION);
-                //µÚËÄ²½£º´´½¨µ¥Ôª¸ñ
+                //ç¬¬å››æ­¥ï¼šåˆ›å»ºå•å…ƒæ ¼
                 Cell cell = row0.createCell(cellnum);
-                //µÚÎå²½£ºÏòµ¥Ôª¸ñÖĞĞ´Êı¾İ
+                //ç¬¬äº”æ­¥ï¼šå‘å•å…ƒæ ¼ä¸­å†™æ•°æ®
                 cell.setCellValue(rownum*10+cellnum+1);
                 cell.setCellStyle(cellStyle);
             }
@@ -195,9 +195,9 @@ public class Initilizer {
                 CellStyle cellStyle = wb.createCellStyle();
                 cellStyle.setAlignment(HorizontalAlignment.CENTER_SELECTION);
 
-                //µÚËÄ²½£º´´½¨µ¥Ôª¸ñ
+                //ç¬¬å››æ­¥ï¼šåˆ›å»ºå•å…ƒæ ¼
                 Cell cell = row1.createCell(cellnum);
-                //µÚÎå²½£ºÏòµ¥Ôª¸ñÖĞĞ´Êı¾İ
+                //ç¬¬äº”æ­¥ï¼šå‘å•å…ƒæ ¼ä¸­å†™æ•°æ®
                 leaderName = unOrderStudents.get(rownum*10+cellnum).getLeaderName();
                 cell.setCellValue(leaderName);
                 cellStyle.setFillForegroundColor(colorOfLeader.get(leaderName));
@@ -212,9 +212,9 @@ public class Initilizer {
 
                 CellStyle cellStyle = wb.createCellStyle();
                 cellStyle.setAlignment(HorizontalAlignment.CENTER_SELECTION);
-                //µÚËÄ²½£º´´½¨µ¥Ôª¸ñ
+                //ç¬¬å››æ­¥ï¼šåˆ›å»ºå•å…ƒæ ¼
                 Cell cell = row2.createCell(cellnum);
-                //µÚÎå²½£ºÏòµ¥Ôª¸ñÖĞĞ´Êı¾İ
+                //ç¬¬äº”æ­¥ï¼šå‘å•å…ƒæ ¼ä¸­å†™æ•°æ®
                 cell.setCellValue(unOrderStudents.get(rownum*10+cellnum).getStuName());
                 cell.setCellStyle(cellStyle);
             }
@@ -226,15 +226,15 @@ public class Initilizer {
 
                 CellStyle cellStyle = wb.createCellStyle();
                 cellStyle.setAlignment(HorizontalAlignment.CENTER_SELECTION);
-                //µÚËÄ²½£º´´½¨µ¥Ôª¸ñ
+                //ç¬¬å››æ­¥ï¼šåˆ›å»ºå•å…ƒæ ¼
                 Cell cell = row3.createCell(cellnum);
-                //µÚÎå²½£ºÏòµ¥Ôª¸ñÖĞĞ´Êı¾İ
+                //ç¬¬äº”æ­¥ï¼šå‘å•å…ƒæ ¼ä¸­å†™æ•°æ®
                 cell.setCellValue(unOrderStudents.get(rownum*10+cellnum).getStuClass());
                 cell.setCellStyle(cellStyle);
             }
         }
-        //µÚÆß²½£ºÊä³öÎÄ¼ş
-        wb.write(out);// ½«ÁÙÊ±ÎÄ¼şºÏ²¢£¬Ğ´Èë×îÖÕÎÄ¼ş
+        //ç¬¬ä¸ƒæ­¥ï¼šè¾“å‡ºæ–‡ä»¶
+        wb.write(out);// å°†ä¸´æ—¶æ–‡ä»¶åˆå¹¶ï¼Œå†™å…¥æœ€ç»ˆæ–‡ä»¶
 
         out.close();
     }

@@ -1,32 +1,32 @@
 package start;
 
 public class TSP {
-	//代价矩阵
+	//???????
 	public static int[][] arc = {{99,3,6,7},
 								  {5,99,2,3},
 								  {6,4,99,2},
 								  {3,7,5,99}};
 	public static int cityNum = 4;
-	//选择0为出发点
+	//???0???????
 	public static char[] s = {'1','2','3'};
-	//子集数量
+	//???????
 	public static int chLen = (int)Math.pow(2, s.length);
-	//记录分界点
+	//???????
 	public static int[] t = new int[s.length+1];	
 	
 	public static void main(String[] args) {
 		String[] ch = new String[100];
 
-		//生成所有子集
+		//???????????
 		createSubset(ch, s, s.length);
 		
-		//对子集按字符串长度排序
-		QSort.qSort(ch, 0, chLen-1);
+		//????????????????????
+//		QSort.qSort(ch, 0, chLen-1);
 	
 		
 		DpTsp();
 	}
-	//动态规划填表
+	//????滮???
 	public static int DpTsp(){
 		int i,j;
 		Stage[] st = new Stage[4];
@@ -47,7 +47,7 @@ public class TSP {
 		st[1].print();
  		return 0;
 	}
-	//生成子集
+	//???????
 	public static void createSubset(String[] ch,char[] s,int len){
 		ch[0]="";
 		int temp;
@@ -61,7 +61,7 @@ public class TSP {
 	}
 }
 class Stage{
-	//代价矩阵
+	//???????
 	public static int[][] arc = {{99,3,6,7},
 								  {5,99,2,3},
 								  {6,4,99,2},
@@ -69,9 +69,9 @@ class Stage{
 	public static int cityNum = 4;
 	
 	public static char[] city = {'0','1','2','3'};
-	//代价矩阵
+	//???????
 	public int[][] curArc;
-	//该阶段集合
+	//???μ???
 	public String[] curCitys;
 
 	

@@ -22,7 +22,7 @@ public class HelloWorld {
 
     static void f1(int index, int[] flag) {
         if(index==len){
-            for (int i = 0; i < index; i++) {
+            for (int i = 0; i < index; i++){
                 System.out.print(flag[i]);
             }
             System.out.println();

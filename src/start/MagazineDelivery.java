@@ -6,75 +6,75 @@ public class MagazineDelivery {
 	
 	public static void main(String[] args) {
 		int testSum, i, j, k, colSumPerRow[],locationsSum,arc[][], status[][];	
-		//¿ØÖÆÌ¨ÊäÈëÁ÷
+		//æ§åˆ¶å°è¾“å…¥æµ
 		Scanner sc = new Scanner(System.in);
-		//²âÊÔÓÃÀıÊıÁ¿
+		//æµ‹è¯•ç”¨ä¾‹æ•°é‡
 		testSum = sc.nextInt();
-		//Ã¿Ò»ĞĞµÄÓĞĞ§ÁĞÊı
+		//æ¯ä¸€è¡Œçš„æœ‰æ•ˆåˆ—æ•°
 		colSumPerRow = new int[31];
 		for (i = 1; i <= 30; i++)
 			colSumPerRow[i] = (i - 1) * (i - 2) / 2 + 1;
-		//Ã¿Ò»ÁĞ¶ÔÓ¦µÄ×´Ì¬
+		//æ¯ä¸€åˆ—å¯¹åº”çš„çŠ¶æ€
 		status = generateStatus(30, colSumPerRow[30]);
-		//±£´æµãÓëµã¼äµÄ¾àÀë
+		//ä¿å­˜ç‚¹ä¸ç‚¹é—´çš„è·ç¦»
 		arc = new int[31][31];
 		for (i = 0; i < testSum; i++){
-			//µ±Ç°²âÊÔÓÃÀıÖĞµãµÄÊıÁ¿
+			//å½“å‰æµ‹è¯•ç”¨ä¾‹ä¸­ç‚¹çš„æ•°é‡
 			locationsSum = sc.nextInt();
-			// ÒÀ´Î¶ÁÈ¡Ã¿Ò»ĞĞ
+			// ä¾æ¬¡è¯»å–æ¯ä¸€è¡Œ
 			for (j = 1; j < locationsSum; j++) {
-				// ±£´æÃ¿Ò»ĞĞÊı¾İ
+				// ä¿å­˜æ¯ä¸€è¡Œæ•°æ®
 				for (k = j + 1; k <= locationsSum; k++) {
 					arc[j][k] = sc.nextInt();
 				}
 			}
-			//Êä³öµ±Ç°ÓÃÀıµÄ×î¶ÌÊ±¼ä
+			//è¾“å‡ºå½“å‰ç”¨ä¾‹çš„æœ€çŸ­æ—¶é—´
 			System.out.println(minimumTime(locationsSum,arc,colSumPerRow,status));
 		}	
-		//¹Ø±ÕÊäÈëÁ÷
+		//å…³é—­è¾“å…¥æµ
 		sc.close();
 	}
 	/**
-	 * ×î¶ÌÊ±¼äËã·¨
-	 * @param locationsSum  µãµÄÊıÁ¿
-	 * @param arc  ¶şÎ¬Êı×é£¬±£´æ¸÷¸öµãÖ®¼äµÄ¾àÀë
-	 * @param colSumPerRow  Ò»Î¬Êı×é£¬±£´æÃ¿Ò»ĞĞ¶ÔÓ¦µÄÓĞĞ§ÁĞÊı
-	 * @param status  ¶şÎ¬Êı×é£¬±£´æ³ı×îÔ¶µãµÄ³µÍâ£¬ÁíÍâÁ½Á¾³µµÄÎ»ÖÃ×éºÏ
+	 * æœ€çŸ­æ—¶é—´ç®—æ³•
+	 * @param locationsSum  ç‚¹çš„æ•°é‡
+	 * @param arc  äºŒç»´æ•°ç»„ï¼Œä¿å­˜å„ä¸ªç‚¹ä¹‹é—´çš„è·ç¦»
+	 * @param colSumPerRow  ä¸€ç»´æ•°ç»„ï¼Œä¿å­˜æ¯ä¸€è¡Œå¯¹åº”çš„æœ‰æ•ˆåˆ—æ•°
+	 * @param status  äºŒç»´æ•°ç»„ï¼Œä¿å­˜é™¤æœ€è¿œç‚¹çš„è½¦å¤–ï¼Œå¦å¤–ä¸¤è¾†è½¦çš„ä½ç½®ç»„åˆ
 	 * @return
 	 */
 	public static int minimumTime(int locationsSum, int[][] arc,int[] colSumPerRow,int[][] status) {
 		int i, j, k,min, temp = 0,col,row,nextLocationToMove;
-		//dpÊı×éµÄĞĞÊı
+		//dpæ•°ç»„çš„è¡Œæ•°
 		row = locationsSum+1;
-		//dpÊı×éµÄ×î´óÓĞĞ§ÁĞÊı
+		//dpæ•°ç»„çš„æœ€å¤§æœ‰æ•ˆåˆ—æ•°
 		col = colSumPerRow[locationsSum];
 		int[][] dp = new int[row][col] ;
-		//µÚÒ»ĞĞ´ú±íÖ»Ğè½«±¨Ö½·¢ËÍÖÁµÚÒ»¸öµØµã,Ê±¼äÎª0(³õÊ¼×´Ì¬)
+		//ç¬¬ä¸€è¡Œä»£è¡¨åªéœ€å°†æŠ¥çº¸å‘é€è‡³ç¬¬ä¸€ä¸ªåœ°ç‚¹,æ—¶é—´ä¸º0(åˆå§‹çŠ¶æ€)
 		dp[1][0]=0;
 		for (i = 2; i <= locationsSum; i++) {
-			// ¶ÔµÚiĞĞÒÀ´ÎÌîĞ´Ã¿Ò»ÁĞ
+			// å¯¹ç¬¬iè¡Œä¾æ¬¡å¡«å†™æ¯ä¸€åˆ—
 			for (j = 0; j < colSumPerRow[i]; j++) {				
 				min = 999;
-				// ±éÀúÉÏÒ»ÁĞµÄÃ¿¸öÖµ
+				// éå†ä¸Šä¸€åˆ—çš„æ¯ä¸ªå€¼
 				for (k = 0; k < colSumPerRow[i - 1]; k++) {
 					status[k][2] = i-1;
-					//ÅĞ¶Ï¶ÔÓÚµ±Ç°×´Ì¬a£¨status[j]£¬i£©£¬ÊÇ·ñ´æÔÚÉÏÒ»×´Ì¬b(status[k],i-1)
-					//Ê¹µÃ´Ó×´Ì¬b×ªÒÆµ½×´Ì¬aÖ»ĞèÒª½«Ò»Á¾³µ´ÓµãnextLocationToMoveÒÆ¶¯µ½µãj
+					//åˆ¤æ–­å¯¹äºå½“å‰çŠ¶æ€aï¼ˆstatus[j]ï¼Œiï¼‰ï¼Œæ˜¯å¦å­˜åœ¨ä¸Šä¸€çŠ¶æ€b(status[k],i-1)
+					//ä½¿å¾—ä»çŠ¶æ€bè½¬ç§»åˆ°çŠ¶æ€aåªéœ€è¦å°†ä¸€è¾†è½¦ä»ç‚¹nextLocationToMoveç§»åŠ¨åˆ°ç‚¹j
 					nextLocationToMove = contain(status[k], status[j]);
-					//ÈôµãnextLocationToMove´æÔÚ
+					//è‹¥ç‚¹nextLocationToMoveå­˜åœ¨
 					if (nextLocationToMove != -1) {
-						//¼ÆËãËùÓĞ·ûºÏÉÏÊöÌõ¼şµÄÇé¿öÖĞµ½´ï×´Ì¬aËùĞèµÄ×î¶ÌÊ±¼ä
+						//è®¡ç®—æ‰€æœ‰ç¬¦åˆä¸Šè¿°æ¡ä»¶çš„æƒ…å†µä¸­åˆ°è¾¾çŠ¶æ€aæ‰€éœ€çš„æœ€çŸ­æ—¶é—´
 						temp = arc[nextLocationToMove][i] + dp[i - 1][k];
 						if (min > temp) {
 							min = temp;
 						}
 					}
 				}
-				// ÌîĞ´dpÊı×é
+				// å¡«å†™dpæ•°ç»„
 				dp[i][j] = min;
 			}
 		}
-		// ÕÒ³ö×îºóÒ»ĞĞ(¸ÃĞĞÖĞÃ¿¸ö×´Ì¬¾ù²»Í¬ÇÒ¾ùÂú×ãÌâÉèÌõ¼ş)ÖĞµÄ×îĞ¡Öµ
+		// æ‰¾å‡ºæœ€åä¸€è¡Œ(è¯¥è¡Œä¸­æ¯ä¸ªçŠ¶æ€å‡ä¸åŒä¸”å‡æ»¡è¶³é¢˜è®¾æ¡ä»¶)ä¸­çš„æœ€å°å€¼
 		min = dp[row-1][0];
 		for (i = 0; i < col; i++) {
 			if (min > dp[row-1][i])
@@ -83,17 +83,17 @@ public class MagazineDelivery {
 		return min;
 	}
 	/**
-	 * Éú³ÉN¸öµã¶ÔÓ¦µÄËùÓĞ(length¸ö)×´Ì¬,Ã¿¸ö×´Ì¬´ú±í½«±¨Ö½ËÍÖÁµãi£¨1~N£©Ê±£¬³ıÁËµãi´¦µÄÆû³µ£¬ÁíÍâÁ½Á¾³µËùÔÚµÄµã
-	 * @param N  µãµÄÊıÁ¿
-	 * @param length ×´Ì¬×ÜÊı
-	 * @return ±£´æ×´Ì¬µÄ¶şÎ¬Êı×é
+	 * ç”ŸæˆNä¸ªç‚¹å¯¹åº”çš„æ‰€æœ‰(lengthä¸ª)çŠ¶æ€,æ¯ä¸ªçŠ¶æ€ä»£è¡¨å°†æŠ¥çº¸é€è‡³ç‚¹iï¼ˆ1~Nï¼‰æ—¶ï¼Œé™¤äº†ç‚¹iå¤„çš„æ±½è½¦ï¼Œå¦å¤–ä¸¤è¾†è½¦æ‰€åœ¨çš„ç‚¹
+	 * @param N  ç‚¹çš„æ•°é‡
+	 * @param length çŠ¶æ€æ€»æ•°
+	 * @return ä¿å­˜çŠ¶æ€çš„äºŒç»´æ•°ç»„
 	 */
 	public static int[][] generateStatus(int N, int length) {
 		int[][] y = new int[length][3];
-		int cur = 0;// Êı×éÏÂ±ê
+		int cur = 0;// æ•°ç»„ä¸‹æ ‡
 		y[cur][0] = y[cur][1] = 1; 
 		cur++;
-		//ÒÔÏÂÉú³Éµã¼¯£û1£¬2£¬3£¬¡­¡­£¬N-1£ı³¤¶ÈÎª2µÄ×Ó¼¯
+		//ä»¥ä¸‹ç”Ÿæˆç‚¹é›†ï½›1ï¼Œ2ï¼Œ3ï¼Œâ€¦â€¦ï¼ŒN-1ï½é•¿åº¦ä¸º2çš„å­é›†
 		for (int i = 1; i < N; i++) {
 			for (int j = 1; j < i; j++) {
 				y[cur][0] = j;
@@ -102,7 +102,7 @@ public class MagazineDelivery {
 		}
 		return y;
 	}
-	//ÅĞ¶ÏÊı×éa£¨³¤¶ÈÎª3£©ÊÇ·ñ°üº¬Êı×éb£¨³¤¶ÈÎª2£©£¬Èô°üº¬Ôò·µ»ØaÊı×éÖĞ²»´æÔÚÓÚÊı×ébÖĞµÄÊı£¬·ñÔò·µ»Ø-1
+	//åˆ¤æ–­æ•°ç»„aï¼ˆé•¿åº¦ä¸º3ï¼‰æ˜¯å¦åŒ…å«æ•°ç»„bï¼ˆé•¿åº¦ä¸º2ï¼‰ï¼Œè‹¥åŒ…å«åˆ™è¿”å›aæ•°ç»„ä¸­ä¸å­˜åœ¨äºæ•°ç»„bä¸­çš„æ•°ï¼Œå¦åˆ™è¿”å›-1
 	public static int contain(int[] a,int[] b) {
 		int i = 0, j = 0, temp = -1;
 		int[] ar = { 1, 1, 1 };
